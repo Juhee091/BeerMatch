@@ -58,7 +58,7 @@ Powered by real-world beer review data, it allows filtering by **aroma, bitterne
 
 ## 🌐 Demo
 
-Coming soon on [Streamlit Cloud](https://streamlit.io/cloud)
+https://beermatch.streamlit.app/
 
 ---
 
