@@ -21,17 +21,19 @@ brands = ["All"] + sorted(df["Brand"].dropna().unique().tolist())
 selected_brand = st.selectbox("Select Brand", brands)
 
 # --- Apply Filters ---
-filtered = df.copy()
-
-filtered = filtered[(filtered["Aroma"] >= aroma - 0.5) & (filtered["Aroma"] <= aroma + 0.5)]
-filtered = filtered[(filtered["Bitterness"] >= bitterness - 0.5) & (filtered["Bitterness"] <= bitterness + 0.5)]
-filtered = filtered[(filtered["Carbonation"] >= carbonation - 0.5) & (filtered["Carbonation"] <= carbonation + 0.5)]
-filtered = filtered[(filtered["Body"] >= body - 0.5) & (filtered["Body"] <= body + 0.5)]
-filtered = filtered[(filtered["ABV"] >= abv_range[0]) & (filtered["ABV"] <= abv_range[1])]
-
 if search_query:
-    filtered = filtered[filtered["Name"].str.contains(search_query, case=False, na=False)]
+    # If search is used, ignore filters and search across all data
+    filtered = df[df["Name"].str.contains(search_query, case=False, na=False)]
+else:
+    # Otherwise, apply all filters
+    filtered = df.copy()
+    filtered = filtered[(filtered["Aroma"] >= aroma - 0.5) & (filtered["Aroma"] <= aroma + 0.5)]
+    filtered = filtered[(filtered["Bitterness"] >= bitterness - 0.5) & (filtered["Bitterness"] <= bitterness + 0.5)]
+    filtered = filtered[(filtered["Carbonation"] >= carbonation - 0.5) & (filtered["Carbonation"] <= carbonation + 0.5)]
+    filtered = filtered[(filtered["Body"] >= body - 0.5) & (filtered["Body"] <= body + 0.5)]
+    filtered = filtered[(filtered["ABV"] >= abv_range[0]) & (filtered["ABV"] <= abv_range[1])]
 
+# Brand filter applies regardless
 if selected_brand != "All":
     filtered = filtered[filtered["Brand"] == selected_brand]
 
